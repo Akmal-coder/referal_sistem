@@ -1,0 +1,36 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <h2>Профиль</h2>
+    <p><b>Номер:</b> {{ user.phone_number }}</p>
+    <p><b>Мой инвайт-код:</b> {{ user.invite_code }}</p>
+
+    <p><b>Активированный инвайт-код:</b>
+    {% if user.activated_invite_code %}
+        {{ user.activated_invite_code }}
+    {% else %}
+        не активирован
+    {% endif %}
+    </p>
+
+    {% if not user.activated_invite_code %}
+        <form method="post">
+            {% csrf_token %}
+            <label>Введите инвайт-код:</label>
+            <input type="text" name="invite_code" maxlength="6" required>
+            <button type="submit">Активировать</button>
+        </form>
+        {# Сообщение об ошибке/успехе будем передавать в шаблоне #}
+        {% if message %}<p><i>{{ message }}</i></p>{% endif %}
+    {% endif %}
+
+    <h3>Кто ввёл мой инвайт-код:</h3>
+    <ul>
+        {% for ref in referrals %}
+            <li>{{ ref.phone_number }}</li>
+        {% empty %}
+            <li>Пока никто</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'logout' %}">Выйти</a></p>
+{% endblock %}
