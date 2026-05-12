@@ -1,0 +1,24 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <h2>Авторизация по номеру телефона</h2>
+    
+    <form method="post" action="{% url 'auth-page' %}">
+        {% csrf_token %}
+        <label>Номер телефона:</label><br>
+        <input type="text" name="phone_number" value="{{ phone|default:'' }}" required>
+        <button type="submit" name="action" value="send_code">Отправить код</button>
+    </form>
+
+    {% if code_sent %}
+        <br>
+        <form method="post" action="{% url 'auth-page' %}">
+            {% csrf_token %}
+            <input type="hidden" name="phone_number" value="{{ phone }}">
+            <label>Введите код из SMS:</label><br>
+            <input type="text" name="code" maxlength="4" required>
+            <button type="submit" name="action" value="verify_code">Войти</button>
+        </form>
+    {% endif %}
+
+    {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+{% endblock %}

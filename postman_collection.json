@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "Сервис авторизации",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {"key": "base_url", "value": "http://127.0.0.1:8000/api"},
+    {"key": "access_token", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "1. Отправить код",
+      "request": {
+        "method": "POST",
+        "url": {"raw": "{{base_url}}/auth/send-code/", "host": ["{{base_url}}"], "path": ["auth", "send-code", ""]},
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\"phone_number\": \"+79991234567\"}"}
+      }
+    },
+    {
+      "name": "2. Верифицировать код",
+      "request": {
+        "method": "POST",
+        "url": {"raw": "{{base_url}}/auth/verify-code/", "host": ["{{base_url}}"], "path": ["auth", "verify-code", ""]},
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\"phone_number\": \"+79991234567\", \"code\": \"1234\"}"}
+      }
+    },
+    {
+      "name": "3. Профиль",
+      "request": {
+        "method": "GET",
+        "url": {"raw": "{{base_url}}/profile/", "host": ["{{base_url}}"], "path": ["profile", ""]}
+      }
+    },
+    {
+      "name": "4. Активировать инвайт-код",
+      "request": {
+        "method": "POST",
+        "url": {"raw": "{{base_url}}/profile/activate-invite/", "host": ["{{base_url}}"], "path": ["profile", "activate-invite", ""]},
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\"invite_code\": \"kp14b6\"}"}
+      }
+    }
+  ]
+}
