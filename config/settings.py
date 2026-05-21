@@ -141,3 +141,18 @@ LOGIN_REDIRECT_URL = '/api/profile-page/'
 
 # Настройки для тестов
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
